@@ -21,8 +21,6 @@
 //     setInputMsg("");
 //   };
 
-
-
 //   console.log("selectedUser",selectedUser, selectedUser.username);
 //   return (
 //     <>
@@ -98,21 +96,34 @@
 import React from "react";
 import Navbar from "./Navbar";
 import SideBar from "./SideBar";
-import ChatingBox from "./ChatingBox"
+import ChatingBox from "./ChatingBox";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function ChatApp() {
+  const { users ,currentUser} = useSelector((state) => state.users);
+  // console.log("currentUser" , currentUser)
+
   return (
+    <>
+    {/* <Navbar />
+      <h1 className="text-5xl font-bold text-center p-5 ">Please Login Chat App</h1> */}
+    {
+    //  currentUser && 
     <div>
-      <Navbar />
-      <div className="container rounded-2xl p-2 border-2 border-black  w-3/4 mx-auto flex mt-5">
-        <div className="sidebar  w-[40%] h-[600px] border-1 ">
-          <SideBar />
-        </div>
-        <div className=" w-[100%] ">
-         <ChatingBox />
-        </div>
+    <Navbar />
+    <div className="container rounded-2xl p-2 border-2 border-black  w-3/4 mx-auto flex mt-5">
+      <div className="sidebar  w-[40%] h-[600px] border-1 ">
+        <SideBar />
+      </div>
+      <div className=" w-[100%] ">
+        <ChatingBox />
       </div>
     </div>
+  </div>
+    }
+     
+    </>
   );
 }
 

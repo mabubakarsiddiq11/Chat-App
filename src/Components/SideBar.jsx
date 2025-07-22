@@ -4,11 +4,17 @@ import { useSelector } from "react-redux";
 
 function SideBar() {
   const [search, setSearch] = useState("");
-  const { users } = useSelector((state) => state.users);
+  const { users ,currentUser} = useSelector((state) => state.users);
 
   const filterOut = users.filter((user) => {
     return  user.username.toLowerCase().includes(search.toLowerCase());
    });
+
+   const filterUsers = users.filter((element) => {
+    return element.userId !== currentUser.userId
+    })
+
+    // console.log("currentUser",currentUser)
 
   return (
     <div>
@@ -23,7 +29,7 @@ function SideBar() {
         </div>
 
         <div>
-          <Profile filterOut={filterOut} />
+          <Profile filterOut={filterUsers } />
         </div>
       </div>
     </div>

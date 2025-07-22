@@ -3,33 +3,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { addUser, setSelectedUser } from "../Redux/Features/userSlice";
+import { addUser, setSelectedUser, } from "../Redux/Features/userSlice";
 import { nanoid } from "@reduxjs/toolkit";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [value, setvalue] = useState({});
   // const [password, setPassword] = useState("");
-  const users = useSelector((state) => state.users);
+  const {users, currentUser} = useSelector((state) => state.users);
   const dispatch = useDispatch();
-
+  
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (value) {
       toast.success(`Welcome ${value.username}!`);
       dispatch(addUser(value));
       setTimeout(() => {
-        navigate("/chat");
+        navigate(`/chat/${currentUser.userId}`);
       }, 1000);
-      console.log("Login:", { users });
-    } else if(users) {
-      console.log(users)
-      toast.success(`Welcome ${value.username}!`);
-      setTimeout(() => {
-        navigate("/chat");
-      }, 1000);
-
-    }
+      console.log("Login:", users,  );
+      console.log("Check UserID:", currentUser.userId);
+    } 
      else {
       toast.error("Please Login Name!");
     }
