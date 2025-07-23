@@ -1,4 +1,5 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { useParams } from "react-router";
 
 const initialState = {
   users: [],
@@ -13,6 +14,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, { payload }) => {
+
       const existingUser = state.users.find(
         (u) => u.username === payload.username
       );
@@ -26,6 +28,14 @@ export const userSlice = createSlice({
       }
       // console.log("payload",state.currentUser)
     },
+    
+    setCurrentUser: (state, { payload }) => {
+      const user = state.users.find((u) => u.userId === payload);
+      if (user) {
+        state.currentUser = user;
+      }
+    },
+   
     logOut: (state) => {
       state.currentUser = {};
     },
@@ -33,10 +43,20 @@ export const userSlice = createSlice({
       state.selectedUser = payload;
     },
     message: (state, { payload }) => {
-      state.messages.push(payload);
+      const { senderId, receiverId, text } = payload;
+      // const chatId = [senderId,receiverId].join("_");
+      // state.messages.push({
+      //   text:payload,
+      // });
+      state.messages.push({
+        id: nanoid(),
+        text,
+        senderId,
+        receiverId,
+      });
     },
   },
 });
 
 export default userSlice.reducer;
-export const { addUser, setSelectedUser, message , logOut} = userSlice.actions;
+export const { addUser, setSelectedUser, message, logOut,setCurrentUser } = userSlice.actions;

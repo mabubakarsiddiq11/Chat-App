@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { addUser, setSelectedUser, } from "../Redux/Features/userSlice";
+import { addUser, setSelectedUser } from "../Redux/Features/userSlice";
 import { current, nanoid } from "@reduxjs/toolkit";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [value, setvalue] = useState({});
+  
   // const [password, setPassword] = useState("");
-  const {users, currentUser} = useSelector((state) => state.users);
+  const { users, currentUser } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
@@ -19,23 +20,22 @@ const LoginPage = () => {
       if (value) {
         toast.success(`Welcome ${value.username}!`);
         dispatch(addUser(value));
-        // console.log(users,'current')
       }
-      
-      
-      console.log("Check UserParams:",currentUser.username, currentUser.userId);
-      // console.log("Login:", users.currentUser.userId );
     } catch (error) {
       toast.error("Please Login Name!");
     }
   };
-
+  
+  
+  
   useEffect(() => {
     if (currentUser && currentUser.userId) {
       navigate(`/chat/${currentUser.userId}`);
+      dispatch(addUser(value));
     }
+    console.log('AllUsers', users )
+    console.log('UserLogin :', currentUser.username )
   }, [currentUser, navigate]);
-
 
   // const handleLogin = (e) => {
   //   e.preventDefault();
@@ -58,10 +58,9 @@ const LoginPage = () => {
   //   navigate("/chat");
   // };
 
-
-  const handleChange = (e)=>{
-    setvalue({...value,[e.target.name]:e.target.value})
-  }
+  const handleChange = (e) => {
+    setvalue({ ...value, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">

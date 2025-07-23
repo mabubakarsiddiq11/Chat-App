@@ -1,21 +1,40 @@
-import React, { useState } from "react";
-import { message, setSelectedUser } from "../Redux/Features/userSlice";
+import React, { useEffect, useState } from "react";
+import { message, setSelectedUser, setCurrentUser  } from "../Redux/Features/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { IoSend } from "react-icons/io5";
 import { useParams } from "react-router";
 function ChatingBox() {
+  const {id} = useParams()
   const [inputmsg, setInputMsg] = useState("");
-  const { users, selectedUser, messages } = useSelector((state) => state.users);
+  const { users, selectedUser, messages, currentUser } = useSelector(
+    (state) => state.users
+  );
   const dispatch = useDispatch();
   const sendMsg = () => {
-    dispatch(message(inputmsg));
+
+    const messageObj = {
+      senderId: currentUser.userId,
+      receiverId: selectedUser.userId,
+      text: inputmsg,
+    };
+
+    dispatch(message(messageObj));
+    // dispatch(message(inputmsg));
     setInputMsg("");
   };
 
+  useEffect(() => {
+    if (id) {
+      dispatch(setCurrentUser(id))
+    }
+  }, [id, dispatch]);
+  const currentChatId = [currentUser.userId, selectedUser.userId].join("_");
+  const currentChatMessages = messages.filter(
+    (msg)=> [msg.senderId,msg.receiverId].join("_") === currentChatId)
+
+
   return (
     <div>
-     
-
       {/* Chat Box */}
       <div className="chat bg-gray-100 rounded-2xl border-1  flex flex-col justify-end h-[600px] p-2">
         {selectedUser.username ? (
@@ -26,21 +45,30 @@ function ChatingBox() {
               </div>
               <div>
                 <div className="font-bold text-lg text-gray-800">
-                  {selectedUser.username}
+                  {selectedUser.username.toUpperCase()}
                 </div>
                 <div className="text-sm text-green-500">Online</div>
               </div>
             </div>
             <div className="flex-1 flex flex-col justify-end">
-              {messages.map((msg, i) => {
+              {/* {currentChatMessages.map((msg, i) => {
                 return (
                   <div key={i} className="text-msg flex flex-col items-end">
                     <p className="bg-white text-black px-4 py-2 rounded-2xl shadow-md m-2 max-w-xs">
-                      {msg}
+                      {msg.text}
                     </p>
                   </div>
                 );
-              })}
+              })} */}
+               {currentChatMessages.map((message) => (
+                    <div key={message.id}
+                        className={`flex mb-3 ${message.senderId === currentUser.userId ? "justify-end" : ""
+                            }`}>
+                        <div className={`p-2 rounded-lg max-w-xs text-white ${message.senderId === currentUser.userId ? "bg-blue-500" : "bg-gray-400"}`}>
+                            <p>{message?.text}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
             <div className="input flex items-center justify-end mt-2 gap-2">
               <input
