@@ -1,9 +1,18 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router";
+import { logOut } from "../Redux/Features/userSlice";
 
 function Navbar() {
   const { selectedUser,currentUser } = useSelector((state) => state.users);
+ const dispatch = useDispatch()
+ const navigate = useNavigate()
+
+  const handleLogout = () => {
+    dispatch(logOut())
+    navigate('/')
+    // console.log("OnClick")
+  }
 
   return (
     <div>
@@ -32,11 +41,11 @@ function Navbar() {
           </nav>
 
         <p className="text-center font-bold">    {currentUser?.username ? ` Current User { ${currentUser.username} }` : "Current User"} </p>
-          <Link to="/">
-            <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+          {/* <Link to="/"> */}
+            <button onClick={handleLogout} className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
               Logout
             </button>
-          </Link>
+          {/* </Link> */}
 
         </div>
       </header>

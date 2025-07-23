@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addUser, setSelectedUser, } from "../Redux/Features/userSlice";
-import { nanoid } from "@reduxjs/toolkit";
+import { current, nanoid } from "@reduxjs/toolkit";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -12,23 +12,29 @@ const LoginPage = () => {
   // const [password, setPassword] = useState("");
   const {users, currentUser} = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (value) {
-      toast.success(`Welcome ${value.username}!`);
-      dispatch(addUser(value));
-      setTimeout(() => {
-        navigate(`/chat/${currentUser.userId}`);
-      }, 1000);
-      console.log("Login:", users,  );
-      console.log("Check UserID:", currentUser.userId);
-    } 
-     else {
+    try {
+      if (value) {
+        toast.success(`Welcome ${value.username}!`);
+        dispatch(addUser(value));
+        // console.log(users,'current')
+      }
+      
+      
+      console.log("Check UserParams:",currentUser.username, currentUser.userId);
+      // console.log("Login:", users.currentUser.userId );
+    } catch (error) {
       toast.error("Please Login Name!");
     }
   };
+
+  useEffect(() => {
+    if (currentUser && currentUser.userId) {
+      navigate(`/chat/${currentUser.userId}`);
+    }
+  }, [currentUser, navigate]);
 
 
   // const handleLogin = (e) => {

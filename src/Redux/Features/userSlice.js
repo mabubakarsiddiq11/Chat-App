@@ -1,11 +1,11 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
-  users: [{ username: "Admin", userId: nanoid() }],
+  users: [],
   messages: [],
   selectedUser: {},
-  currentUser: null || {},
-  room : {roomId : nanoid() , roomMsg : []}
+  currentUser: {},
+  // room : {roomId : nanoid() , roomMsg : []}
 };
 
 export const userSlice = createSlice({
@@ -24,6 +24,10 @@ export const userSlice = createSlice({
         state.users.push(newUser);
         state.currentUser = newUser;
       }
+      // console.log("payload",state.currentUser)
+    },
+    logOut: (state) => {
+      state.currentUser = {};
     },
     setSelectedUser: (state, { payload }) => {
       state.selectedUser = payload;
@@ -35,4 +39,4 @@ export const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { addUser, setSelectedUser, message } = userSlice.actions;
+export const { addUser, setSelectedUser, message , logOut} = userSlice.actions;
