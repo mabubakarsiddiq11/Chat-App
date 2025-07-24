@@ -28,10 +28,14 @@ function ChatingBox() {
       dispatch(setCurrentUser(id))
     }
   }, [id, dispatch]);
-  const currentChatId = [currentUser.userId, selectedUser.userId].join("_");
+  // const currentChatId = [currentUser.userId, selectedUser.userId].join("_");
   const currentChatMessages = messages.filter(
-    (msg)=> [msg.senderId,msg.receiverId].join("_") === currentChatId)
-
+    (msg) =>
+      (msg.senderId === currentUser.userId &&
+        msg.receiverId === selectedUser.userId) ||
+      (msg.senderId === selectedUser.userId &&
+        msg.receiverId === currentUser.userId)
+  );
 
   return (
     <div>
@@ -45,6 +49,7 @@ function ChatingBox() {
               </div>
               <div>
                 <div className="font-bold text-lg text-gray-800">
+                  
                   {selectedUser.username.toUpperCase()}
                 </div>
                 <div className="text-sm text-green-500">Online</div>
