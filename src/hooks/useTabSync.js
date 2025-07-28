@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { listenToTabs } from "../Components/broadcast";
-import { setCurrentUser, message, addUser } from "../Redux/Features/userSlice"; 
+import { setCurrentUser, message, addUser, } from "../Redux/Features/userSlice"; 
 
 const useTabSync = () => {
     const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const useTabSync = () => {
     useEffect(() => {
         listenToTabs(({ type, payload }) => {
             if (type === "ADD_USER") {
-                dispatch(setCurrentUser(payload)); // sync user
+                // dispatch(setCurrentUser(payload)); // sync user
             }
 
             if (type === "SEND_MESSAGE") {

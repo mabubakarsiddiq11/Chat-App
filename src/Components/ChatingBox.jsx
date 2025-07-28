@@ -3,7 +3,11 @@ import { message, setSelectedUser, setCurrentUser  } from "../Redux/Features/use
 import { useDispatch, useSelector } from "react-redux";
 import { IoSend } from "react-icons/io5";
 import { useParams } from "react-router";
+import { sendToTabs } from "./broadcast";
+
+
 function ChatingBox() {
+
   const {id} = useParams()
   const [inputmsg, setInputMsg] = useState("");
   const { users, selectedUser, messages, currentUser } = useSelector(
@@ -19,6 +23,8 @@ function ChatingBox() {
     };
 
     dispatch(message(messageObj));
+    sendToTabs("SEND_MESSAGE",messageObj)
+
     // dispatch(message(inputmsg));
     setInputMsg("");
   };

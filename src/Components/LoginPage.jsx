@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addUser, setSelectedUser } from "../Redux/Features/userSlice";
 import { current, nanoid } from "@reduxjs/toolkit";
+import { sendToTabs } from "./broadcast";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const LoginPage = () => {
       if (value) {
         toast.success(`Welcome ${value.username}!`);
         dispatch(addUser(value));
+        sendToTabs("ADD_USER",value);  
       }
     } catch (error) {
       toast.error("Please Login Name!");
