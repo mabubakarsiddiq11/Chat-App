@@ -12,7 +12,7 @@ function ChatingBox() {
   const dispatch = useDispatch();
   const sendMsg = () => {
 
-    const messageObj = {
+    const messageObj = {  
       senderId: currentUser.userId,
       receiverId: selectedUser.userId,
       text: inputmsg,

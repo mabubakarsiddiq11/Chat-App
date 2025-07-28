@@ -14,7 +14,6 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, { payload }) => {
-
       const existingUser = state.users.find(
         (u) => u.username === payload.username
       );
@@ -28,18 +27,18 @@ export const userSlice = createSlice({
       }
       // console.log("payload",state.currentUser)
     },
-    
+
     setCurrentUser: (state, { payload }) => {
       const user = state.users.find((u) => u.userId === payload);
       if (user) {
         state.currentUser = user;
       }
     },
-   
+
     logOut: (state) => {
       state.currentUser = {};
     },
-    setSelectedUser: (state, { payload }) => {
+    setSelectedUser: (state, { payload }) => {  
       state.selectedUser = payload;
     },
     message: (state, { payload }) => {
@@ -59,4 +58,5 @@ export const userSlice = createSlice({
 });
 
 export default userSlice.reducer;
-export const { addUser, setSelectedUser, message, logOut,setCurrentUser } = userSlice.actions;
+export const { addUser, setSelectedUser, message, logOut, setCurrentUser } =
+  userSlice.actions;

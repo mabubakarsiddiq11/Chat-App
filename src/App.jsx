@@ -2,9 +2,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import ChatApp from "./Components/ChatApp";
 import LoginPage from "./Components/LoginPage";
-import ChatingBox from "./Components/ChatingBox";
+import useTabSync from './hooks/useTabSync'
 
 function App() {
+  useTabSync();
   const router = createBrowserRouter([
     {
       path: "/",
@@ -20,6 +21,7 @@ function App() {
     },
    
   ]);
+ 
   return (
     <RouterProvider router={router}>
 
